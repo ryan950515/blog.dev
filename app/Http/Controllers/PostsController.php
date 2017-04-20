@@ -91,4 +91,32 @@ class PostsController extends Controller
     {
         //
     }
+
+    public function showContact(){
+        return view('contact');
+        // return view('errors.503');
+    }
+
+    public function showPost($id){
+        // return view('post')->with('id',$id);
+                return view('post',compact('id'));
+    }
+
+        public function showPostCategory($category,$date,$id){
+        // return view('post')->with('id',$id);
+                return view('post',compact('category','date','id'));
+                //    $data = array(
+                //             'category'=>$category,
+                //             'date'=>$date,
+                //             'id'=>$id
+                //           );
+            // return view('post')->with(array(
+            //                 'category'=>$category,
+            //                 'date'=>$date,
+            //                 'id'=>$id
+            //               ));              
+
+    }
+
+
 }
