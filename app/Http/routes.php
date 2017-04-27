@@ -53,3 +53,10 @@ Route::get('post/{category}/{date}/{id}', 'PostsController@showPostCategory');
 // Route::get('post/{id}/{name}','PostsController@index');
 
 // Route::resource('posts', 'PostsController');
+
+Route::get('error', function(){
+    return view("errors.503");
+    // 也可以使用\
+    // return view("errors\503");
+
+});
