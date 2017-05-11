@@ -60,3 +60,34 @@ Route::get('error', function(){
     // return view("errors\503");
 
 });
+
+Route::get('insert', function(){
+    DB::insert('insert into posts (title, `fulltext`) values ("123","test")');
+    // DB::insert('insert into posts (title, `fulltext`) values (?, ?)', ["hi", "hellworld"]);
+});
+
+Route::get('read', function() {
+    //
+    $results = DB::select('select * from posts where 1 = ?', [1]);
+    // return $results;
+    // foreach ($results as $result) {
+    //     # code...
+    //     echo $result->title;
+    //     // return 只能回傳1筆，echo才可以回傳多筆
+        
+    // }
+    var_dump($results);
+});
+
+Route::get('update', function(){
+    // DB::update('update posts set title = "天氣很好" where id = ?', [1]);
+    //使用var_dump觀察
+    $sql=    DB::update('update posts set title = "天氣很好" where id = ?', [1]);
+    var_dump($sql);
+
+});
+
+
+Route::get('delete', function(){
+    DB::delete('delete from posts where id = ?', [2]);
+});
