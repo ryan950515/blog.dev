@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePostsTable extends Migration
+class CreateRolesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,13 +12,10 @@ class CreatePostsTable extends Migration
      */
     public function up()
     {
-        Schema::create('posts', function (Blueprint $table) {
+        Schema::create('roles', function (Blueprint $table) {
             $table->increments('id');
-            //20170608
-            $table->integer('user_id')->unsigned();
-            //20170608 end
-            $table->String('title');
-            $table->longText('fulltext');
+            $table->string('name');
+            //timestamps一定會產生create 和 up的時戳欄位
             $table->timestamps();
         });
     }
@@ -30,6 +27,6 @@ class CreatePostsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('posts');
+        Schema::drop('roles');
     }
 }

@@ -2,6 +2,9 @@
 
 //20170525
 use App\Post;
+//20170608
+use App\User;
+use App\Role;
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -179,4 +182,59 @@ Route::get('read', function(){
                 'title'=>$title,
                 'fulltext'=>$fulltext
             ]); 
+    });
+
+    //delete
+    Route::get('delete/{id}', function($id){
+        $post =Post::find($id);
+        $post->delete();
+        //Post::destory([1,3,5]);
+    });
+
+
+
+    //20170608
+    Route::get('user/{userid}/post', function($userid) {
+        //
+        return User::find($userid)->post->title;
+        // echo User::find($userid)->post->title . "<br/>\n";
+    });
+
+    Route::get('post/{postid}/user', function($postid) {
+        //
+        return Post::find($postid)->user->name;
+        // echo User::find($userid)->post->title . "<br/>\n";
+    });
+
+    //hasMany
+    Route::get('user/{userid}/posts', function($userid) {
+        //
+        // return User::find($userid)->posts->title;
+        $user = User::find($userid);
+        foreach ($user->posts as $post) {
+            # code...
+            echo $post->title. "<br>\n";
+        }
+    });
+
+    Route::get('user/{userid}/role', function($userid){
+        //取用roles屬性
+        // $user = User::find($userid);
+        // echo $user->name . "您的權限為：<br>\n";
+        // foreach ($user->roles as $role){
+        //     echo $role->name . "<br/>\n";
+        // }
+
+        //另一種寫法，呼叫roles（）method
+        $role = User::find($userid)->roles()->orderBy('id','desc')->get();
+        return $role;
+    });
+
+    Route::get('role/{roleid}/user', function($roleid) {
+        //
+        $users = Role::find($roleid)
+            ->users()
+            ->orderBy('id', 'asc')
+            ->get();
+            return $users;
     });
