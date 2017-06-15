@@ -5,6 +5,9 @@ use App\Post;
 //20170608
 use App\User;
 use App\Role;
+use App\Country;
+use App\Photo;
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -191,7 +194,33 @@ Route::get('read', function(){
         //Post::destory([1,3,5]);
     });
 
+    //撈出所有包含軟刪除的資料
+    Route::get('readall', function(){
+        $posts = Post::withTrashed()->get();
+        return $posts;
+    });
 
+    //只撈出軟刪除的資料
+    Route::get('readtrash', function () {
+        $posts = Post::onlyTrashed()->get();
+        return $posts;
+    });
+
+
+    //復原軟刪除的資料
+    Route::get('restore', function () {
+            Post::onlyTrashed()->restore();
+            // Post::withTrashed()->restore();
+    });
+
+    //完整刪除
+    Route::get('forcedelete', function () {
+        Post::onlyTrashed()->forcedelete();
+    });
+
+    Route::get('forcedelete/{id}', function ($id) {
+        Post::find($id)->forcedelete();
+    });
 
     //20170608
     Route::get('user/{userid}/post', function($userid) {
@@ -237,4 +266,41 @@ Route::get('read', function(){
             ->orderBy('id', 'asc')
             ->get();
             return $users;
+    });
+
+
+    Route::get('country/{countryid}/posts', function ($countryid) {
+        $country = Country::find($countryid);
+        foreach ($country->posts as $post ){
+            echo $post->title . "<br/>\n";
+        }
+    });
+    
+    // Route::get('country/{countryid}/{userid}/posts', function ($countryid, $userid) {
+    //     $country = Country::find($countryid, $userid);
+    //     foreach ($country->posts as $post ){
+    //         echo $post->title . "<br/>\n";
+    //     }
+    // });
+
+    //20170615 photo morph
+    Route::get('user/{userid}/photo', function ($userid) {
+        $user = User::find($userid);
+
+        foreach($user->photos as $photo){
+            return $photo;
+            // echo $photo->path;
+        }
+    });
+
+
+    Route::get('post/{postid}/photos', function ($postid) {
+        $post = Post::findOrFail($postid);
+        // $post = Post::find($postid);
+
+        foreach($post->photos as $photo){
+            
+            // return $photo;
+            echo $photo->path . "<br/>\n";
+        }
     });
