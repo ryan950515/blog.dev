@@ -15,8 +15,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Post extends Model
 {
+    //軟刪除必加SoftDeletes
     use SoftDeletes;
     protected $dataes =["delete_at"];
+    //軟刪除必加SoftDeletes END
 
     //20170608
     public function user(){
