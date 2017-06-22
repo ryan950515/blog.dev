@@ -7,6 +7,9 @@ use App\User;
 use App\Role;
 use App\Country;
 use App\Photo;
+use App\Taggable;
+use App\Tag;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -38,7 +41,7 @@ Route::get('/', function () {
 // //     return ("Page: Content");
 // // });
 // // 20170420使用control中的method使用@
-// Route::get('contact', 'PostsController@showContact');
+ Route::get('contact', 'PostsController@showContact');
 
 
 // // Route::get('post/{id}', 'PostsController@showPost');
@@ -303,4 +306,26 @@ Route::get('read', function(){
             // return $photo;
             echo $photo->path . "<br/>\n";
         }
+    });
+
+    //20170622
+    Route::get('post/{postid}/tags', function ($postid) {
+        $post = Post::find($postid);
+        echo $post->title . "<br/>\n";
+
+        foreach ($post->tags as $tag){
+            echo $tag->name . "<br/>\n";
+        }
+
+    });
+
+
+    Route::get('tag/{tagid}/posts', function ($tagid) {
+        $tag = Tag::find($tagid);
+        echo $tag->name . "<br/>\n";
+
+        foreach ($tag->posts as $post){
+            echo $post->title . "<br/>\n";
+        }
+
     });
