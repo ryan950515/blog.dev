@@ -6,6 +6,15 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+//20170525
+use App\Post;
+//20170608
+use App\User;
+use App\Role;
+use App\Country;
+use App\Photo;
+use App\Taggable;
+use App\Tag;
 
 class PostsController extends Controller
 {
@@ -25,7 +34,12 @@ class PostsController extends Controller
 	public function index()
 	    {
 		//
-		return "HelloWorld";
+		// return "HelloWorld";
+		//20170713
+		$posts = Post::all();
+		// dd($posts);
+		//return $posts;
+		return view("posts.index", compact("posts"));
 	}
 	
 	/**
@@ -36,7 +50,9 @@ class PostsController extends Controller
 	    public function create()
 	    {
 		//
-		return ("This is CREATE 測試");
+		// return ("This is CREATE 測試");
+		//20170713
+		return view("posts.create");
 	}
 	
 	
@@ -48,7 +64,17 @@ class PostsController extends Controller
 	     */
 	    public function store(Request $request)
 	    {
-		//
+		//20170713
+		// return $request->all();
+		//取欄位
+		// return $request->get("title");
+		//取屬性
+		// return $request->title;
+
+		//存入資料表
+		Post::create($request->all());
+		return redirect("/posts");
+
 	}
 	
 	
@@ -60,7 +86,10 @@ class PostsController extends Controller
 	     */
 	    public function show($id)
 	    {
-		//
+		//20170713
+		//只找一筆findOrFail
+		$post = Post::findOrFail($id);
+		return view('posts.show', compact('post'));
 	}
 	
 	
@@ -72,7 +101,9 @@ class PostsController extends Controller
 	     */
 	    public function edit($id)
 	    {
-		//
+		 //20170713
+		$post = Post::findOrFail($id);
+		return view('posts.edit', compact('post'));
 	}
 	
 	
@@ -86,6 +117,10 @@ class PostsController extends Controller
 	    public function update(Request $request, $id)
 	    {
 		//
+			$post = Post::findOrFail($id);
+			$post->update($request->all());
+
+			return redirect("/posts");
 	}
 	
 	
@@ -97,7 +132,11 @@ class PostsController extends Controller
 	     */
 	    public function destroy($id)
 	    {
-		//
+		//	
+			$post = Post::findOrFail($id);
+			$post->delete();
+
+			return redirect("/posts");
 	}
 	
 	public function showContact(){
